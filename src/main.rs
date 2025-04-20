@@ -1,8 +1,7 @@
 mod tui;
-use crate::tui::{api_dash::render_api_dash, dash_board::render_dash, draw_graph::draw};
+use crate::tui::{api_dash::render_api_dash, dash_board::data_listener, draw_graph::draw};
 use dialoguer::theme::ColorfulTheme;
 use dialoguer::Select;
-
 
 enum UI {
     ApiDash,
@@ -20,7 +19,8 @@ impl ToString for UI {
     }
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let ui = [UI::ApiDash, UI::Network, UI::MetricsDash];
 
     let ui_type = Select::with_theme(&ColorfulTheme::default())
@@ -34,6 +34,6 @@ fn main() {
     match ui {
         UI::ApiDash => render_api_dash(),
         UI::Network => draw(),
-        UI::MetricsDash => render_dash(),
+        UI::MetricsDash => data_listener().await,
     }
 }
