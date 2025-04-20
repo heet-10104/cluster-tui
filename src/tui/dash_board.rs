@@ -104,6 +104,7 @@ pub async fn render_dash(Json(payload): Json<Metrics>) -> impl IntoResponse {
         let cpu = metrics[i].cpu;
         let ram = metrics[i].ram;
         let upload = metrics[i].netspeed[0];
+
         let download = metrics[i].netspeed[1];
 
         let upload_hist = &mut upload_histories[i];
@@ -138,7 +139,7 @@ pub async fn render_dash(Json(payload): Json<Metrics>) -> impl IntoResponse {
 pub async fn data_listener() {
     let app = Router::new().route("/data", post(render_dash));
 
-    let address = "100.104.128.106:3000";
+    let address = "100.86.175.69:3000";
     let listener = tokio::net::TcpListener::bind(address)
         .await
         .expect("failed to listen...");
